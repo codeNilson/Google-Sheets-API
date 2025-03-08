@@ -14,7 +14,25 @@
 
     <build>
         <plugins>
-            <!-- Plugin do Shade para criar um JAR com todas as dependências -->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                        <configuration>
+                            <keyname>0D838157EDFE10D7317182D61B0671E6AFEAD0CE</keyname>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -33,7 +51,7 @@
             </plugin>
         </plugins>
     </build>
-    
+
 
 
     <dependencies>
