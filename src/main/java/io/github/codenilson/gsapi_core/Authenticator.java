@@ -29,10 +29,14 @@ public class Authenticator {
     }
 
     public static HttpRequestInitializer getInitializer(String jsonPath) {
-        try (InputStream inputStream = Authenticator.class.getClassLoader().getResourceAsStream(jsonPath)) {
+        try (InputStream inputStream = loadResource(jsonPath)) {
             return getInitializer(inputStream);
         } catch (IOException e) {
             throw new GSAPIError("Error loading credentials file.", e);
         }
+    }
+
+    protected static InputStream loadResource(String jsonPath) {
+        return Authenticator.class.getClassLoader().getResourceAsStream(jsonPath);
     }
 }

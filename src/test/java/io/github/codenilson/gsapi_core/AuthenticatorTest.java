@@ -3,84 +3,84 @@ package io.github.codenilson.gsapi_core;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 
 import com.google.api.client.http.HttpRequestInitializer;
+import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.auth.oauth2.GoogleCredentials;
 
 import io.github.codenilson.gsapi_core.errors.GSAPIError;
 
-public class AuthenticatorTest {
+class AuthenticatorTest {
 
     @Test
-    public void testGetInitializer_WithNullInputStream() {
+    void testGetInitializerMocked() {
+        try (MockedStatic<GoogleCredentials> mocked = mockStatic(GoogleCredentials.class)) {
+            GoogleCredentials credentialsMock = mock(GoogleCredentials.class);
+            when(credentialsMock.createScoped(Collections.singleton(SheetsScopes.SPREADSHEETS)))
+                    .thenReturn(credentialsMock);
+
+            mocked.when(() -> GoogleCredentials.fromStream(any(InputStream.class))).thenReturn(credentialsMock);
+
+            InputStream mockStream = mock(InputStream.class);
+            assertNotNull(Authenticator.getInitializer(mockStream));
+        }
+    }
+
+    @Test
+    void testGetInitializerThrowsException() {
+        try (MockedStatic<GoogleCredentials> mocked = mockStatic(GoogleCredentials.class)) {
+            mocked.when(() -> GoogleCredentials.fromStream(any(InputStream.class)))
+                    .thenThrow(new RuntimeException("Erro de mock"));
+
+            InputStream mockStream = mock(InputStream.class);
+            GSAPIError exception = assertThrows(GSAPIError.class, () -> Authenticator.getInitializer(mockStream));
+            assertEquals("Erro ao criar as credenciais.", exception.getMessage());
+        }
+    }
+
+    @Test
+    void testGetInitializerValidPath() {
+        String resourcePath = "dummy_credentials.json";
+
+        try (MockedStatic<GoogleCredentials> mocked = mockStatic(GoogleCredentials.class)) {
+            GoogleCredentials credentialsMock = mock(GoogleCredentials.class);
+
+            mocked.when(() -> GoogleCredentials.fromStream(any(InputStream.class)))
+                    .thenReturn(credentialsMock);
+
+            when(credentialsMock.createScoped(Collections.singleton(SheetsScopes.SPREADSHEETS)))
+                    .thenReturn(credentialsMock);
+
+            HttpRequestInitializer initializer = Authenticator.getInitializer(resourcePath);
+
+            assertNotNull(initializer);
+
+            mocked.verify(() -> GoogleCredentials.fromStream(any(InputStream.class)), times(1));
+        }
+    }
+
+    @Test
+    void testGetInitializerInvalidPath() {
+        // 1️⃣ Define um caminho para um recurso que não existe
+        String invalidPath = "not_a_real_json.json";
+
+        // 2️⃣ Como o getResourceAsStream retornará null, espera-se que o método lance
+        // uma IllegalArgumentException
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            Authenticator.getInitializer((InputStream) null);
+            Authenticator.getInitializer(invalidPath);
         });
         assertEquals("The file is null.", exception.getMessage());
     }
 
-    @Test
-    public void testGetInitializer_WithValidInputStream() throws IOException {
-        // Simula um InputStream com credenciais válidas
-        String validCredentials = "{\"type\": \"service_account\"}";
-        InputStream inputStream = new ByteArrayInputStream(validCredentials.getBytes());
-
-        // Mock do GoogleCredentials para evitar dependência externa
-        try (MockedStatic<GoogleCredentials> mockedCredentials = Mockito.mockStatic(GoogleCredentials.class)) {
-            GoogleCredentials credentials = mock(GoogleCredentials.class);
-            mockedCredentials.when(() -> GoogleCredentials.fromStream(inputStream)).thenReturn(credentials);
-
-            // Executa o método e verifica se retorna um HttpRequestInitializer
-            HttpRequestInitializer initializer = Authenticator.getInitializer(inputStream);
-            assertNotNull(initializer);
-        }
-    }
-
-    @Test
-    public void testGetInitializer_WithInvalidInputStream() {
-        // Simula um InputStream com credenciais inválidas
-        String invalidCredentials = "invalid_json";
-        InputStream inputStream = new ByteArrayInputStream(invalidCredentials.getBytes());
-
-        // Verifica se uma exceção GSAPIError é lançada
-        GSAPIError exception = assertThrows(GSAPIError.class, () -> {
-            Authenticator.getInitializer(inputStream);
-        });
-        assertEquals("Erro ao criar as credenciais.", exception.getMessage());
-    }
-
-    @Test
-    public void testGetInitializer_WithInvalidJsonPath() {
-        // Verifica se uma exceção é lançada quando o arquivo não é encontrado
-        GSAPIError exception = assertThrows(GSAPIError.class, () -> {
-            Authenticator.getInitializer("invalid_path.json");
-        });
-        assertEquals("Error loading credentials file.", exception.getMessage());
-    }
-
-    @Test
-    public void testGetInitializer_WithValidJsonPath() throws IOException {
-        // Simula um arquivo de credenciais válido
-        String validCredentials = "{\"type\": \"service_account\"}";
-        InputStream inputStream = new ByteArrayInputStream(validCredentials.getBytes());
-
-        // Mock do ClassLoader para simular o carregamento do arquivo
-        try (MockedStatic<GoogleCredentials> mockedCredentials = Mockito.mockStatic(GoogleCredentials.class)) {
-            GoogleCredentials credentials = mock(GoogleCredentials.class);
-            mockedCredentials.when(() -> GoogleCredentials.fromStream(inputStream)).thenReturn(credentials);
-
-            // Executa o método e verifica se retorna um HttpRequestInitializer
-            HttpRequestInitializer initializer = Authenticator.getInitializer("valid_credentials.json");
-            assertNotNull(initializer);
-        }
-    }
 }

@@ -16,7 +16,7 @@ public class DataValue {
         return value;
     }
 
-    public void setvalue(List<Object> value) {
+    public void setValue(List<Object> value) {
         this.value = value;
     }
 
