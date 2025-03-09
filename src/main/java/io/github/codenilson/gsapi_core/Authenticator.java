@@ -15,7 +15,7 @@ public class Authenticator {
 
     public static HttpRequestInitializer getInitializer(InputStream jsonStream) {
         if (jsonStream == null) {
-            throw new IllegalArgumentException("The file is null.");
+            throw new IllegalArgumentException("The provided InputStream is null. Please provide a valid InputStream.");
         }
 
         try {
@@ -23,16 +23,21 @@ public class Authenticator {
                     .createScoped(Collections.singleton(SheetsScopes.SPREADSHEETS));
 
             return new HttpCredentialsAdapter(credentials);
+        } catch (IOException e) {
+            throw new GSAPIError("Failed to create credentials from the provided InputStream.", e);
         } catch (Exception e) {
-            throw new GSAPIError("Erro ao criar as credenciais.", e);
+            throw new GSAPIError("An unexpected error occurred while creating credentials.", e);
         }
     }
 
     public static HttpRequestInitializer getInitializer(String jsonPath) {
         try (InputStream inputStream = loadResource(jsonPath)) {
+            if (inputStream == null) {
+                throw new GSAPIError("The resource at the specified path could not be found: " + jsonPath);
+            }
             return getInitializer(inputStream);
         } catch (IOException e) {
-            throw new GSAPIError("Error loading credentials file.", e);
+            throw new GSAPIError("Error loading credentials file from path: " + jsonPath, e);
         }
     }
 

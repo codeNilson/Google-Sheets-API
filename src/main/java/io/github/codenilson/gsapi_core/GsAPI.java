@@ -20,22 +20,24 @@ public class GsAPI {
     private final String spreadsheetId;
     private final Sheets service;
 
-    public GsAPI(String applicationName, String spreadsheetId) {
+    public GsAPI(String applicationName, String spreadsheetId, String jsonPath) {
         this.applicationName = applicationName;
         this.spreadsheetId = spreadsheetId;
-        this.service = createService();
+        this.service = createService(jsonPath);
     }
 
-    private Sheets createService() {
+    private Sheets createService(String jsonPath) {
         try {
-            HttpRequestInitializer initializer = Authenticator.getInitializer("smartpat-452122-ab74171d8743.json");
+            HttpRequestInitializer initializer = Authenticator.getInitializer(jsonPath);
             return new Sheets.Builder(GoogleNetHttpTransport.newTrustedTransport(),
                     GsonFactory.getDefaultInstance(),
                     initializer)
                     .setApplicationName(applicationName)
                     .build();
+        } catch (IllegalArgumentException e) {
+            throw new GSAPIError("The specified file could not be found: " + jsonPath, e);
         } catch (Exception e) {
-            throw new GSAPIError("Error while creating service", e);
+            throw new GSAPIError("An error occurred while creating the Sheets service.", e);
         }
     }
 
@@ -60,7 +62,7 @@ public class GsAPI {
             return Optional.of(result);
 
         } catch (IOException e) {
-            throw new GSAPIError("Error fingind sheet.", e);
+            throw new GSAPIError("An error occurred while retrieving the sheet data for range: " + range, e);
         }
     }
 
@@ -74,7 +76,7 @@ public class GsAPI {
                     .setInsertDataOption("INSERT_ROWS")
                     .execute();
         } catch (IOException e) {
-            throw new GSAPIError("Error while appending to the sheet.", e);
+            throw new GSAPIError("An error occurred while appending data to the sheet for range: " + range, e);
         }
     }
 
@@ -87,7 +89,7 @@ public class GsAPI {
                     .setValueInputOption("USER_ENTERED")
                     .execute();
         } catch (IOException e) {
-            throw new GSAPIError("Error while updating the sheet.", e);
+            throw new GSAPIError("An error occurred while updating the sheet for range: " + range, e);
         }
     }
 
@@ -101,7 +103,7 @@ public class GsAPI {
                     .clear(spreadsheetId, range, new ClearValuesRequest())
                     .execute();
         } catch (IOException e) {
-            throw new GSAPIError("Error while deleting the row.", e);
+            throw new GSAPIError("An error occurred while deleting the row for range: " + range, e);
         }
     }
 }
