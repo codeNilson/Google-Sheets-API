@@ -27,7 +27,7 @@ public class DataValueTest {
     }
 
     @Test
-    void testGetValue() {   
+    void testGetValue() {
         Assertions.assertEquals(testValues, dataValue.getValue(),
                 "getValue() should return the same list as the constructor.");
     }

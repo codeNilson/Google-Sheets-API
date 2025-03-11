@@ -5,7 +5,7 @@
 
     <groupId>io.github.codenilson</groupId>
     <artifactId>gsapi_core</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -66,10 +66,53 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- Source -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Javadoc -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.11.2</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.7.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                </configuration>
+            </plugin>
+
         </plugins>
+
     </build>
 
     <dependencies>
+
 
         <dependency>
             <groupId>org.mockito</groupId>
@@ -111,4 +154,31 @@
         </dependency>
 
     </dependencies>
+
+    <developers>
+        <developer>
+            <id>codeNilson</id>
+            <name>Denilson Silva</name>
+            <email>fcodenilson@gmail.com</email>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <url>https://github.com/codeNilson/Google-Sheets-API.git</url>
+
+    <description>A API for Google Sheets in java!</description>
+
+    <scm>
+        <url>https://github.com/codeNilson/Google-Sheets-API.git</url>
+        <connection>scm:git:git://github.com/codeNilson/Google-Sheets-API.git</connection>
+        <developerConnection>scm:git:ssh://github.com/codeNilson/Google-Sheets-API.git</developerConnection>
+    </scm>
+
 </project>
