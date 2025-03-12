@@ -5,7 +5,7 @@ Ela oferece métodos simples para autenticação, leitura, escrita, atualizaçã
 em planilhas.
 
 ## Status do Projeto
-Este projeto está em andamento. Novas funcionalidades, testes adicionais e melhorias na documentação estão sendo desenvolvidos. Em breve, a biblioteca estará disponível no Maven Repository, e uma documentação mais detalhada será publicada.
+Este projeto está em andamento. Novas funcionalidades, testes adicionais e melhorias na documentação estão sendo desenvolvidos. A biblioteca está disponível no Maven Repository, e uma documentação mais detalhada será publicada.
 
 ## Requisitos
 - Java 8 ou superior
