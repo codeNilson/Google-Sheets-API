@@ -5,7 +5,7 @@
 
     <groupId>io.github.codenilson</groupId>
     <artifactId>gsapi_core</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
