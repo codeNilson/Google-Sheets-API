@@ -9,6 +9,7 @@ mvnw.cmd
 *.log
 *.iml
 *.ascmvn
+*.json
 
 ### STS ###
 .apt_generated
