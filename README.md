@@ -17,7 +17,7 @@ Adicione a dependência abaixo no seu arquivo `pom.xml`:
 <dependency>
   <groupId>io.github.codenilson</groupId>
   <artifactId>gsapi-core</artifactId>
-  <version>1.0.0</version>
+  <version>2.0.0</version>
 </dependency>
 ```
 
