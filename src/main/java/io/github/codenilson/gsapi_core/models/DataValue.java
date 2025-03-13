@@ -21,7 +21,7 @@ public class DataValue {
     /**
      * Constructor to create a DataValue object with the provided values and index.
      *
-     * @param value A list of objects representing the row data.
+     * @param values A list of objects representing the row data.
      * @param index The index used to generate the starting range.
      */
     public DataValue(List<Object> values, int index) {
@@ -41,7 +41,7 @@ public class DataValue {
     /**
      * Sets the list of values (row data).
      *
-     * @param value The list of objects to be set as row data.
+     * @param values The list of objects to be set as row data.
      */
     public void setValue(List<Object> values) {
         this.values = values;

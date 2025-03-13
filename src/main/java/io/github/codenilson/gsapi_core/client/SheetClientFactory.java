@@ -10,6 +10,8 @@ import com.google.api.services.sheets.v4.Sheets;
 
 /**
  * Utility class for creating an instance of the Google Sheets API service.
+ * This class is used to configure and initialize the {@link Sheets} service
+ * for interacting with Google Sheets.
  */
 public class SheetClientFactory {
 
@@ -28,7 +30,6 @@ public class SheetClientFactory {
      */
     public static Sheets getSheetsService(HttpRequestInitializer initializer, String applicationName)
             throws GeneralSecurityException, IOException {
-
         return new Sheets.Builder(GoogleNetHttpTransport.newTrustedTransport(),
                 GsonFactory.getDefaultInstance(),
                 initializer)
