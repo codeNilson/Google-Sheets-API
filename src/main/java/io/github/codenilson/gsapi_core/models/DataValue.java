@@ -74,4 +74,46 @@ public class DataValue {
     public String toString() {
         return "DataValue [rowData=" + values + ", startRange=" + startRange + "]";
     }
+
+    /**
+     * Computes a hash code for this DataValue object.
+     *
+     * @return A hash code value for this object.
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((values == null) ? 0 : values.hashCode());
+        result = prime * result + ((startRange == null) ? 0 : startRange.hashCode());
+        return result;
+    }
+
+    /**
+     * Compares this DataValue object to another object for equality.
+     *
+     * @param obj The object to compare to.
+     * @return {@code true} if the objects are equal; {@code false} otherwise.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        DataValue other = (DataValue) obj;
+        if (values == null) {
+            if (other.values != null)
+                return false;
+        } else if (!values.equals(other.values))
+            return false;
+        if (startRange == null) {
+            if (other.startRange != null)
+                return false;
+        } else if (!startRange.equals(other.startRange))
+            return false;
+        return true;
+    }
 }

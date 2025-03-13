@@ -1,4 +1,4 @@
-package io.github.codenilson.gsapi_core;
+package io.github.codenilson.gsapi_core.utils;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -18,7 +18,6 @@ import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.auth.oauth2.GoogleCredentials;
 
 import io.github.codenilson.gsapi_core.errors.GSAPIError;
-import io.github.codenilson.gsapi_core.utils.Authenticator;
 
 class AuthenticatorTest {
 
