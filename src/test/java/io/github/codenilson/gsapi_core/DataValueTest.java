@@ -28,7 +28,7 @@ public class DataValueTest {
 
     @Test
     void testGetValue() {
-        Assertions.assertEquals(testValues, dataValue.getValue(),
+        Assertions.assertEquals(testValues, dataValue.getValues(),
                 "getValue() should return the same list as the constructor.");
     }
 
@@ -44,14 +44,14 @@ public class DataValueTest {
         value.add("Test");
         value.add("Test2");
         dataValue.setValue(value);
-        Assertions.assertEquals(value, dataValue.getValue(), "setValue() should change the value list.");
+        Assertions.assertEquals(value, dataValue.getValues(), "setValue() should change the value list.");
     }
 
     @Test
     void testSetValueWithEmptyList() {
         List<Object> emptyList = new ArrayList<>();
         dataValue.setValue(emptyList);
-        Assertions.assertEquals(emptyList, dataValue.getValue(), "setValue() should change the value list.");
+        Assertions.assertEquals(emptyList, dataValue.getValues(), "setValue() should change the value list.");
     }
 
     @Test

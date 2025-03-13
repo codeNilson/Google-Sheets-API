@@ -11,7 +11,7 @@ public class DataValue {
     /**
      * List of objects representing the row data.
      */
-    private List<Object> value = new ArrayList<>();
+    private List<Object> values = new ArrayList<>();
 
     /**
      * Starting range for the row in the spreadsheet.
@@ -24,8 +24,8 @@ public class DataValue {
      * @param value A list of objects representing the row data.
      * @param index The index used to generate the starting range.
      */
-    public DataValue(List<Object> value, int index) {
-        this.value = value;
+    public DataValue(List<Object> values, int index) {
+        this.values = values;
         this.startRange = "A" + (index + 1);
     }
 
@@ -34,8 +34,8 @@ public class DataValue {
      *
      * @return The list of objects representing the row data.
      */
-    public List<Object> getValue() {
-        return value;
+    public List<Object> getValues() {
+        return values;
     }
 
     /**
@@ -43,8 +43,8 @@ public class DataValue {
      *
      * @param value The list of objects to be set as row data.
      */
-    public void setValue(List<Object> value) {
-        this.value = value;
+    public void setValue(List<Object> values) {
+        this.values = values;
     }
 
     /**
@@ -72,6 +72,6 @@ public class DataValue {
      */
     @Override
     public String toString() {
-        return "DataValue [rowData=" + value + ", startRange=" + startRange + "]";
+        return "DataValue [rowData=" + values + ", startRange=" + startRange + "]";
     }
 }

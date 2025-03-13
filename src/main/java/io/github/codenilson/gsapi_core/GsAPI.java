@@ -15,9 +15,9 @@ public class GsAPI {
         this.client = client;
     }
 
-    public Optional<List<DataValue>> getSheet(SheetRequest request) {
+    public Optional<List<DataValue>> retrieveData(SheetRequest request) {
         try {
-            List<List<Object>> values = client.getValues(request);
+            List<List<Object>> values = client.fetchValues(request);
             if (values == null || values.isEmpty()) {
                 return Optional.empty();
             }
@@ -32,4 +32,37 @@ public class GsAPI {
                     e);
         }
     }
+
+    public void addData(SheetRequest request, List<DataValue> values) {
+        try {
+            List<List<Object>> data = new ArrayList<>();
+            for (DataValue value : values) {
+                data.add(value.getValues());
+            }
+            client.appendValues(request, data);
+        } catch (IOException e) {
+            throw new GSAPIError("An error occurred while appending the sheet data for range: " + request.getRange(),
+                    e);
+        }
+    }
+
+    public void modifyData(SheetRequest request, DataValue value) {
+        try {
+            List<List<Object>> data = new ArrayList<>();
+            data.add(value.getValues());
+            client.overwriteValues(request, data);
+        } catch (IOException e) {
+            throw new GSAPIError("An error occurred while updating the sheet data for range: " + request.getRange(),
+                    e);
+        }
+    }
+
+    public void resetRange(SheetRequest request) {
+        try {
+            client.clearRange(request);
+        } catch (IOException e) {
+            throw new GSAPIError("An error occurred while clearing the sheet data for range: " + request.getRange(), e);
+        }
+    }
+
 }
