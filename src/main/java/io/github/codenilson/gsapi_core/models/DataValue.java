@@ -1,4 +1,4 @@
-package io.github.codenilson.gsapi_core;
+package io.github.codenilson.gsapi_core.models;
 
 import java.util.ArrayList;
 import java.util.List;

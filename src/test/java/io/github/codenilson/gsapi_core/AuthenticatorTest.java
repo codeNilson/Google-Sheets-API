@@ -18,6 +18,7 @@ import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.auth.oauth2.GoogleCredentials;
 
 import io.github.codenilson.gsapi_core.errors.GSAPIError;
+import io.github.codenilson.gsapi_core.utils.Authenticator;
 
 class AuthenticatorTest {
 

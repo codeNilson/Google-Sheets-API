@@ -1,4 +1,4 @@
-package io.github.codenilson.gsapi_core;
+package io.github.codenilson.gsapi_core.client;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;

@@ -1,4 +1,4 @@
-package io.github.codenilson.gsapi_core;
+package io.github.codenilson.gsapi_core.utils;
 
 import java.io.IOException;
 import java.io.InputStream;

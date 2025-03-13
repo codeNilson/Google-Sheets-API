@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import io.github.codenilson.gsapi_core.models.DataValue;
+
 public class DataValueTest {
 
     private DataValue dataValue;
